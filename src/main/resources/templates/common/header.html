@@ -1,0 +1,11 @@
+<p th:text="${username}" th:fragment="username"></p>
+<a th:href="@{/}" th:fragment="userpagelink" th:text="トップ画面"></a>
+<a th:href="@{/logout}" th:fragment="logout" th:text="ログアウト"></a>
+<div th:fragment="user_common">
+	<p>ようこそ<span th:text="${username}"></p>
+Hello, [[${session.display_name}]]!
+	<th:block th:if="${session.loginType == 'form'}">
+		<a th:href="@{/userDetail}">ユーザ情報詳細</a>
+	</th:block>
+	<a th:href="@{/logout}">ログアウト</a>
+</div>

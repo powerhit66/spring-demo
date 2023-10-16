@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- thymeleafの場合、パスの先頭に/を付けると自動的に補完してくれる -->
+		<link rel="stylesheet" type="text/css" href="../css/create.css"　th:href="@{/css/create.css}" />
+		<script type="text/javascript" src="/js/create.js"></script>
+			<th:block th:switch="${mode}">
+				<title th:case=create th:text="アカウント作成"></title>
+				<title th:case=delete th:text="アカウント削除"></title>
+				<title th:case=modify th:text="アカウント編集"></title>
+				<title th:case=view th:text="アカウント詳細"></title>
+			</th:block>
+	</head>
+	<body>
+		<th:block th:if="${mode ne 'create'}">
+			<div class="insert" th:insert="~{/common/header :: userpagelink}"></div>
+		</th:block>
+		<div class="wrapper">
+			<div class="login-box">
+				<th:block th:switch="${mode}">
+					<h3 class="info-text" th:case="'create'" th:text="アカウント作成"></h3>
+					<h3 class="info-text" th:case="'delete'" th:text="アカウント削除"></h3>
+					<h3 class="info-text" th:case="'modify'" th:text="アカウント編集"></h3>
+					<h3 class="info-text" th:case="'view'" th:text="アカウント詳細"></h3>
+				</th:block>
+				<div>
+					<font id="error" color="#ff0000"　th:text="${error}?'登録失敗'"></font>
+				</div>
+				<!-- th:object="${user}を宣言すると、userentityにフォームの項目を登録してくれる -->
+				<th:block th:if="${mode eq 'create'}">
+					<form onsubmit="return submitConfirm()" class="form-container" th:object="${user}" method="post" th:action="@{/create}">
+				</th:block>
+				<th:block th:if="${mode eq 'delete'}">
+					<form onsubmit="return submitConfirm()" class="form-container" th:object="${user}" method="post" th:action="@{/delete}">
+				</th:block>
+				<th:block th:if="${mode eq 'modify'}">
+					<form onsubmit="return submitConfirm()" class="form-container" th:object="${user}" method="post" th:action="@{/modify}">
+				</th:block>
+				<th:block th:if="${mode eq 'view'}">
+					<form class="form-container">
+				</th:block>
+					<div class="input-addon">
+						<input class="form-element input-field" th:onkeyup="${mode eq 'create'}? 'checkUsername()'" id="username" name="username" th:value="${user?.username}" placeholder="ユーザ名" type="text" th:readonly="${mode ne 'create'}" minlength="8" maxlength="20" required="required">
+						<img class="fit-picture" id="username_check" src="/img/loading.png" width="12%" height="12%" alt="check"/>
+					</div>
+					<div class="input-addon">
+						<input class="form-element input-field" th:onkeyup="${mode eq 'create' or mode eq 'modify'}? 'checkDisplayname()'" id="display_name" name="display_name" th:value="${user?.display_name}" placeholder="表示名" type="text" th:readonly="${(mode eq 'view' or mode eq 'delete')}" maxlength="15">
+						<img class="fit-picture" id="display_name_check" src="/img/loading.png" width="12%" height="12%" alt="check"/>
+					</div>
+					<div class="input-addon">
+						<input class="form-element input-field" th:onkeyup="${mode eq 'create' or mode eq 'modify'}? 'checkEmail()'" id="email" name="email" th:value="${user?.email}" placeholder="Eメール" type="email" th:readonly="${(mode eq 'view' or mode eq 'delete')}" maxlength="50" required="required">
+						<img class="fit-picture" id="email_check" src="/img/loading.png" width="12%" height="12%" alt="accept"/>
+					</div>
+					<div class="input-addon">
+						<input class="form-element input-field" id="password" name="password" th:onkeyup="${mode eq 'create' or mode eq 'modify'}? 'return checkPassword()'" th:value="${user?.password}"placeholder="パスワード" type="password"  th:readonly="${(mode eq 'view' or mode eq 'delete')}" minlength="8" maxlength="30" required="required">
+						<img class="fit-picture" id="pw_check" src="/img/loading.png" width="12%" height="12%" alt="accept"/>
+					</div>
+					<div class="input-addon">
+						<th:block th:if="${mode == 'create' or mode == 'modify'}"}>
+							<input class="form-element input-field" id="password_confirm" name="password_confirm" th:onkeyup="${mode eq 'create' or mode eq 'modify'}? 'return checkPassword()'" placeholder="パスワード再入力" type="password" minlength="8" maxlength="30" required="required">
+						<img class="fit-picture" id="pw_confirm" src="/img/loading.png" width="12%" height="12%" alt="accept"/>
+						</th:block>
+					</div>
+				<th:block th:switch="${mode}">
+					<input th:case="'create'" id="submit" class="form-element is-submit" type="submit" value="ユーザ作成">
+					<input th:case="'delete'" class="form-element is-submit" type="submit" value="ユーザ削除">
+					<input th:case="'modify'" id="submit" class="form-element is-submit" type="submit" value="ユーザ編集">
+				</th:block>
+				</form>
+				<p th:if="${mode=='create'}">アカウントを持ってる？<a th:href="@{/login}">ログインする</a></p>
+				<div class="insert" th:insert="~{/common/footer :: footer}"></div>
+				<!-- 一覧画面のみ表示する -->
+				<th:block th:if="${mode eq 'view'}">
+					<a th:href="@{/modify}" th:text="ユーザ情報編集"></a>
+					<a th:href="@{/delete}"　th:text="ユーザ削除"></a>
+				</th:block>
+			</div>
+		</div>
+	</body>
+</html>

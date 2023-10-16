@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/create.css"　th:href="@{/css/create.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/footer.css}" />
+		<script type="text/javascript" src="/js/create.js"></script>
+		<meta charset="UTF-8">
+		<title>トップ画面</title>
+	</head>
+	<body>
+		<div class="user_common" th:insert="~{/common/header :: user_common}"></div>
+		<a th:href="@{/bbs}">掲示板へ</a>
+	</body>
+	<div class="insert" th:insert="~{/common/footer :: footer}"></div>
+</html>
