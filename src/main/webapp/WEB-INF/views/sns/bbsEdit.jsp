@@ -8,7 +8,7 @@
 	<title>掲示板
 		<c:choose>
 			<c:when test="${mode == 'delete'}">削除画面</c:when>
-			<c:when test="${mode == 'modify'}">更新画面</c:when>
+			<c:when test="${mode == 'modify'}">編集画面</c:when>
 			<c:when test="${mode == 'reply'}">返信画面</c:when>
 		</c:choose>
 	</title>
